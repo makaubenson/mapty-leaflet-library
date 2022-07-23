@@ -72,3 +72,7 @@ if (navigator.geolocation) {
 - Get and store local storage data in a variable.
 - Parse in the `localStorage.getItem() ` the key of the data stored. in this case `workouts`
 - `JSON.parse()` simply converts strings back to object
+
+### Considerations of Additional Features
+
+![maptychallenge]
