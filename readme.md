@@ -54,3 +54,5 @@ if (navigator.geolocation) {
 ```
 
 - `navigator.geolocation.getCurrentPosition()` - Takes as arguments, 2 callback functions (one called on success (called with a parameter called the position parameter), one called when error happens)
+
+![mapty_architecture]
