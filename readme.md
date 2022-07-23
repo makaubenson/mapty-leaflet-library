@@ -56,3 +56,10 @@ if (navigator.geolocation) {
 - `navigator.geolocation.getCurrentPosition()` - Takes as arguments, 2 callback functions (one called on success (called with a parameter called the position parameter), one called when error happens)
 
 ![mapty_architecture]
+
+## Using Local storage API
+
+- `localStorage.setItem('workouts', JSON.stringify(this.#workouts));`
+- `localStorage.setItem()` expects 2 arguments, The first one being `key`, and the second one `value`
+- In the above example `workouts` is key and `JSON.stringify(this.#workouts)` is value
+- JSON.stringify() - converts object to string
