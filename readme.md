@@ -63,3 +63,12 @@ if (navigator.geolocation) {
 - `localStorage.setItem()` expects 2 arguments, The first one being `key`, and the second one `value`
 - In the above example `workouts` is key and `JSON.stringify(this.#workouts)` is value
 - JSON.stringify() - converts object to string
+
+```
+ const data = JSON.parse(localStorage.getItem('workouts'));
+    console.log(data);
+```
+
+- Get and store local storage data in a variable.
+- Parse in the `localStorage.getItem() ` the key of the data stored. in this case `workouts`
+- `JSON.parse()` simply converts strings back to object
