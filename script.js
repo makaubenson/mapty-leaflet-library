@@ -65,7 +65,7 @@ class Cycling extends Workout {
 
 const run1 = new Running([39, -12], 5.2, 24, 178);
 const cycling1 = new Cycling([39, -12], 27, 95, 523);
-console.log(run1, cycling1);
+// console.log(run1, cycling1);
 
 //////////////////////////////
 //Application Architecture/////
@@ -113,7 +113,7 @@ class App {
     //   console.log(latitude, longitude);
 
     const coords = [latitude, longitude];
-    console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
+    // console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
 
     this.#map = L.map('map').setView(coords, this.#mapZoomLevel); //13 here is a zoom ratio
     //string passed in the map function must be the id name of an elememnt in the html,
@@ -127,6 +127,10 @@ class App {
 
     //use leaflet's function on() instead of js's addEventListener to handle clicks on maps
     this.#map.on('click', this._showForm.bind(this));
+
+    this.#workouts.forEach(work => {
+      this._renderWorkoutMarker(work);
+    });
   }
 
   _showForm(mapE) {
@@ -293,7 +297,7 @@ class App {
       },
     });
     //using the public interface
-    workout.click();
+    // workout.click();
   }
 
   _setLocalStorage() {
@@ -312,6 +316,13 @@ class App {
     this.#workouts.forEach(work => {
       this._renderWorkout(work);
     });
+  }
+
+  //clear data from local storage
+  reset() {
+    localStorage.removeItem('workouts');
+    //reloading webpage
+    location.reload();
   }
 }
 
