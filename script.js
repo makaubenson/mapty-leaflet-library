@@ -302,9 +302,16 @@ class App {
 
   _getLocalStorage() {
     const data = JSON.parse(localStorage.getItem('workouts'));
-    console.log(data);
+    // console.log(data);
+    if (!data) return;
 
-    //convert string to object
+    //restore workouts array
+    this.#workouts = data;
+
+    //render workouts in the list
+    this.#workouts.forEach(work => {
+      this._renderWorkout(work);
+    });
   }
 }
 
