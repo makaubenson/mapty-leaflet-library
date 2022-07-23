@@ -10,7 +10,7 @@ const inputDistance = document.querySelector('.form__input--distance');
 const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
-
+let map, mapEvent;
 //How To Use the GeoLocation API
 if (navigator.geolocation) {
   //Takes as arguments, 2 callback functions
@@ -28,7 +28,7 @@ if (navigator.geolocation) {
       const coords = [latitude, longitude];
       console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
 
-      const map = L.map('map').setView(coords, 13); //13 here is a zoom ratio
+      map = L.map('map').setView(coords, 13); //13 here is a zoom ratio
       //string passed in the map function must be the id name of an elememnt in the html,
       // the map will be displayed in that element
       //   console.log(map);
@@ -38,25 +38,12 @@ if (navigator.geolocation) {
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      //use leaflet's function on() instead of js's addEventListener
-      map.on('click', function (mapEvent) {
-        console.log(mapEvent);
-        const { lat, lng } = mapEvent.latlng;
-        //Make a Marker
-        L.marker([lat, lng])
-          .addTo(map)
-          //   .bindPopup(`A pretty CSS3 popup.<br> ${lat}, ${lng}.`)
-          .bindPopup(
-            L.popup({
-              maxWidth: 250,
-              minWidth: 100,
-              autoClose: false,
-              closeOnClick: false,
-              className: 'running-popup',
-            })
-          )
-          .setPopupContent('Workout')
-          .openPopup();
+      //use leaflet's function on() instead of js's addEventListener to handle clicks on maps
+      map.on('click', function (mapE) {
+        mapEvent = mapE;
+        form.classList.remove('hidden');
+        inputDistance.focus();
+        // console.log(mapEvent);
       });
     },
     function () {
@@ -64,3 +51,38 @@ if (navigator.geolocation) {
     }
   );
 }
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  //Clear Input fields
+  inputCadence.value =
+    inputDistance.value =
+    inputDuration.value =
+    inputElevation.value =
+      '';
+
+  //Display Marker
+  console.log(mapEvent);
+  const { lat, lng } = mapEvent.latlng;
+  //Make a Marker
+  L.marker([lat, lng])
+    .addTo(map)
+    //   .bindPopup(`A pretty CSS3 popup.<br> ${lat}, ${lng}.`)
+    .bindPopup(
+      L.popup({
+        maxWidth: 250,
+        minWidth: 100,
+        autoClose: false,
+        closeOnClick: false,
+        className: 'running-popup',
+      })
+    )
+    .setPopupContent('Workout')
+    .openPopup();
+});
+
+inputType.addEventListener('change', function () {
+  inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
+  inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
+});
