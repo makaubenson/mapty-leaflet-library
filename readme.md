@@ -55,7 +55,8 @@ if (navigator.geolocation) {
 
 - `navigator.geolocation.getCurrentPosition()` - Takes as arguments, 2 callback functions (one called on success (called with a parameter called the position parameter), one called when error happens)
 
-![mapty_architecture]
+
+![Mapty Architecture](https://user-images.githubusercontent.com/59168713/180614589-f8b80a4a-1982-4c4a-a73c-d0c59ec0f463.png)
 
 ## Using Local storage API
 
@@ -75,4 +76,11 @@ if (navigator.geolocation) {
 
 ### Considerations of Additional Features
 
-![maptychallenge]
+![Mapty Challenges](https://user-images.githubusercontent.com/59168713/180614579-73145be8-a4b8-4aad-aa10-44c7e61aa2e6.png)
+
+
+
+
+
+
+
