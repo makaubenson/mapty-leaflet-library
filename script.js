@@ -12,6 +12,8 @@ const inputElevation = document.querySelector('.form__input--elevation');
 class Workout {
   date = new Date();
   id = (Date.now() + '').slice(-10);
+  clicks = 0;
+
   constructor(coords, distance, duration) {
     this.coords = coords; // [lat,lng]
     this.distance = distance; //in km
@@ -24,6 +26,10 @@ class Workout {
     this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${
       months[this.date.getMonth()]
     } ${this.date.getDate()}`;
+  }
+
+  click() {
+    this.clicks++;
   }
 }
 
@@ -66,6 +72,7 @@ console.log(run1, cycling1);
 class App {
   //Private Instance properties
   #map;
+  #mapZoomLevel = 13;
   #mapEvent;
   #workouts = [];
 
@@ -75,6 +82,7 @@ class App {
     form.addEventListener('submit', this._newWorkout.bind(this));
 
     inputType.addEventListener('change', this._toggleElevationField);
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
   }
 
   _getPosition() {
@@ -103,7 +111,7 @@ class App {
     const coords = [latitude, longitude];
     console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
 
-    this.#map = L.map('map').setView(coords, 13); //13 here is a zoom ratio
+    this.#map = L.map('map').setView(coords, this.#mapZoomLevel); //13 here is a zoom ratio
     //string passed in the map function must be the id name of an elememnt in the html,
     // the map will be displayed in that element
     //   console.log(map);
@@ -257,6 +265,27 @@ class App {
         </li>
 `;
     form.insertAdjacentHTML('afterend', html);
+  }
+
+  _moveToPopup(e) {
+    const workoutEl = e.target.closest('.workout');
+    console.log(workoutEl);
+
+    if (!workoutEl) return; //Guard Clause
+
+    const workout = this.#workouts.find(
+      work => work.id === workoutEl.dataset.id
+    );
+    console.log(workout);
+
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
+      animate: true,
+      pan: {
+        duration: 1,
+      },
+    });
+    //using the public interface
+    workout.click();
   }
 }
 
